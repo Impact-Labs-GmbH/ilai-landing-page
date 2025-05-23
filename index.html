@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>ILAI – Ihr intelligenter Telefonassistent</title>
     <style>
         /* Reset und Basis-Stile */
@@ -61,22 +62,11 @@
             align-items: center;
         }
 
-        .logo-text {
-            font-size: 0.8em;
+        .logo {
+            font-size: 1.8em;
             font-weight: bold;
             color: var(--accent-color); /* Logo in Akzentfarbe */
             text-decoration: none;
-        }
-
-        .logo-img {
-            width: 250px;
-        }
-
-        .logo-container {
-            display: flex;
-            flex-direction: column; /* Ordnet die Kind-Elemente vertikal an */
-            align-items: flex-start; /* Optional: Richtet die Elemente linksbündig aus.
-                                        Weitere Optionen: center, flex-end, stretch */
         }
 
         nav ul {
@@ -113,6 +103,7 @@
             background-color: var(--accent-hover-color);
             color: var(--text-on-accent) !important;
         }
+
 
         /* Hero Sektion */
         .hero {
@@ -170,6 +161,9 @@
         }
 
         /* Voice Animation & Typewriter Container */
+        
+
+        
         .animation-showcase-container {
             display: flex;
             align-items: center;
@@ -260,49 +254,93 @@
             margin-right: auto;
         }
 
-        /* Karten-Stile */
-        .challenges-grid, .benefits-grid {
+        /* Karten-Stile (Challenge, Feature, Benefit) */
+        .challenges-grid, .features-grid, .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Geänderte Zeile */
+            /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */ /* Alte responsive Spalten */
+            grid-template-columns: repeat(4, 1fr); /* Immer 4 Spalten für Desktop */
             gap: 30px;
             margin-top: 40px;
         }
 
         .challenge-card, .feature-card, .benefit-card, .live-demo-card {
             background-color: var(--card-background); 
-            padding: 25px;
+            padding: 20px; /* Etwas weniger Padding für neues Layout */
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Flexbox für innere Struktur */
+            flex-direction: column; /* Inhalt untereinander */
         }
         .challenge-card:hover, .feature-card:hover, .benefit-card:hover, .live-demo-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
-        .challenge-card .icon, .feature-card .icon, .benefit-card .icon, .live-demo-card .icon {
-            font-size: 2.5em; 
+        .card-header { /* Neuer Wrapper für Icon und Überschrift */
+            display: flex;
+            align-items: center; /* Vertikal zentrieren */
+            margin-bottom: 15px; /* Abstand zum Text */
+        }
+
+        .card-header .icon {
+            font-size: 1.8em; /* Angepasste Icon-Größe */
             color: var(--accent-color); 
-            margin-bottom: 15px;
+            margin-right: 15px; /* Abstand zur Überschrift */
+            width: 30px; /* Feste Breite für das Icon, um Textbündigkeit zu verbessern */
+            text-align: center;
         }
         
-        .challenge-card h3, .feature-card h3, .benefit-card h3, .live-demo-card h3 {
-            font-size: 1.3em;
+        .card-header h3 {
+            font-size: 1.2em; /* Angepasste Überschriftengröße */
             color: var(--heading-color);
-            margin-bottom: 10px;
+            margin-bottom: 0; /* Kein unterer Margin, da im Flex-Container */
+            line-height: 1.3;
         }
+        
         .challenge-card p, .feature-card p, .benefit-card p, .live-demo-card p {
             font-size: 0.95em;
             color: var(--text-primary);
+            line-height: 1.5;
         }
+
+         .logo-text {
+            font-size: 0.8em;
+            font-weight: bold;
+            color: var(--accent-color); /* Logo in Akzentfarbe */
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 250px;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column; /* Ordnet die Kind-Elemente vertikal an */
+            align-items: flex-start; /* Optional: Richtet die Elemente linksbündig aus.
+                                        Weitere Optionen: center, flex-end, stretch */
+        }
+        
+        /* Spezifisch für live-demo-card, da diese zentriert bleibt */
+        .live-demo-card .icon { 
+            font-size: 2.5em; 
+            color: var(--accent-color); 
+            margin-bottom: 15px;
+            width: auto; 
+            margin-right: 0;
+            text-align: center;
+        }
+        .live-demo-card h3 {
+            font-size: 1.3em;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .live-demo-card p {
+            text-align: center;
+        }
+
 
         /* How it Works Sektion */
         .how-it-works-steps {
@@ -334,13 +372,10 @@
             margin-bottom: 10px;
         }
 
-        /* Live Demo Sektion */
+        /* Live Demo Sektion (Styling für die Karte selbst) */
         #live-demo .live-demo-card {
             max-width: 600px;
             margin: 20px auto 0 auto; /* Zentriert die Karte */
-        }
-        #live-demo .live-demo-card p {
-            margin-bottom: 15px;
         }
 
 
@@ -408,11 +443,28 @@
         }
         
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) { /* Anpassung für etwas kleinere Desktops, bevor es zu 2 Spalten geht */
+            .features-grid, .benefits-grid {
+                 grid-template-columns: repeat(3, 1fr); /* 3 Spalten */
+            }
+        }
+
+        @media (max-width: 992px) { /* Tablet-Größe */
+            .features-grid, .benefits-grid {
+                 grid-template-columns: repeat(2, 1fr); /* 2 Spalten */
+            }
+        }
+
+
+        @media (max-width: 768px) { /* Mobile Geräte */
             .hero h1 { font-size: 2em; }
             .hero p { font-size: 1em; }
             .hero .sub-intro { font-size: 0.9em; }
             .phone-cta-button { font-size: 1.1em; padding: 12px 25px; }
+
+            .challenges-grid, .features-grid, .benefits-grid {
+                 grid-template-columns: 1fr; /* 1 Spalte für Mobile */
+            }
 
 
             nav ul {
@@ -443,6 +495,23 @@
             
             .typewriter-text { font-size: 1em; white-space: normal; word-break: break-word; border-right: none; animation: none; width: auto !important; display: block; text-align: center; }
             .typewriter-text-wrapper { max-width: 100%; }
+
+            .card-header {
+                flex-direction: column; /* Icon über Überschrift auf Mobilgeräten */
+                align-items: flex-start; /* Links ausrichten */
+                text-align: left;
+            }
+            .card-header .icon {
+                margin-right: 0;
+                margin-bottom: 8px; /* Abstand zwischen Icon und Überschrift */
+                width: auto; /* Breite automatisch anpassen */
+            }
+            .card-header h3 {
+                text-align: left;
+            }
+             .challenge-card p, .feature-card p, .benefit-card p {
+                text-align: left;
+            }
         }
 
         @media (min-width: 769px) {
@@ -509,16 +578,31 @@
                 <p class="section-subtitle">Typische Herausforderungen, die smarte Automatisierung erfordern und die ILAI für Sie löst.</p>
                 <div class="challenges-grid">
                     <div class="challenge-card">
-                        <div class="icon">⚠️</div> <h3>Überlastete Teams</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-users-gear"></i></div>
+                            <h3>Überlastete Teams</h3>
+                        </div>
                         <p>Anrufe und Routineanfragen binden wertvolle Zeit Ihrer Mitarbeiter.</p>
                     </div>
                     <div class="challenge-card">
-                        <div class="icon">🕒</div> <h3>Eingeschränkte Erreichbarkeit</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <h3>Eingeschränkte Erreichbarkeit</h3>
+                        </div>
                         <p>Kunden erwarten Service auch außerhalb der üblichen Geschäftszeiten.</p>
                     </div>
                     <div class="challenge-card">
-                        <div class="icon">🧩</div> <h3>Fehleranfällige Prozesse</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <h3>Fehleranfällige Prozesse</h3>
+                        </div>
                         <p>Manuelle Dateneingaben und Prozessschritte führen zu Inkonsistenzen.</p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-dice"></i></div> <h3>Verpasste Chancen</h3>
+                        </div>
+                        <p>Potenzielle Kunden erreichen niemanden und gehen zur Konkurrenz.</p>
                     </div>
                 </div>
             </div>
@@ -528,21 +612,32 @@
             <div class="container">
                 <h2 class="section-title">ILAI ist Ihre Lösung</h2>
                 <p class="section-subtitle">Entdecken Sie die Kernfunktionen, die ILAI zu einem unverzichtbaren Partner machen.</p>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="icon">💡</div> <h3>Intelligente Gesprächsführung</h3>
+                <div class="features-grid"> <div class="feature-card">
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-brain"></i></div>
+                            <h3>Intelligente Gesprächsführung</h3>
+                        </div>
                         <p>ILAI versteht Anliegen, beantwortet Fragen aus Ihrer Wissensbasis und klassifiziert Anfragen präzise.</p>
                     </div>
                     <div class="feature-card">
-                        <div class="icon">⚙️</div> <h3>Automatisierte Prozesse</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                            <h3>Automatisierte Prozesse</h3>
+                        </div>
                         <p>Definieren Sie Workflows, die ILAI selbstständig ausführt – von der Datenerfassung bis zur Aktion.</p>
                     </div>
                     <div class="feature-card">
-                        <div class="icon">🔗</div> <h3>Nahtlose Systemintegration</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-link"></i></div>
+                            <h3>Nahtlose Systemintegration</h3>
+                        </div>
                         <p>ILAI verbindet sich mit Ihren bestehenden Tools (CRM, ERP etc.) für einen reibungslosen Datenfluss.</p>
                     </div>
                      <div class="feature-card">
-                        <div class="icon">🎯</div> <h3>24/7 Erreichbarkeit</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-headset"></i></div>
+                            <h3>24/7 Erreichbarkeit</h3>
+                        </div>
                         <p>Bieten Sie Ihren Kunden konstanten Support und Informationszugang, rund um die Uhr.</p>
                     </div>
                 </div>
@@ -554,7 +649,7 @@
                 <h2 class="section-title">ILAI Live erleben – Rufen Sie an!</h2>
                 <p class="section-subtitle">Als innovatives Startup möchten wir Ihnen nicht nur erzählen, was ILAI kann – wir möchten es Ihnen zeigen! Erleben Sie unsere KI-Assistenz hautnah.</p>
                 <div class="live-demo-card">
-                    <div class="icon">📞</div>
+                    <div class="icon"><i class="fa-solid fa-phone-volume"></i></div>
                     <h3>Testen Sie unser interaktives Demo:</h3>
                     <p>Unter der Nummer <strong>+49 123 456 7890</strong> erwartet Sie ILAI.</p>
                     <p>Sie können Fragen zu unserem Unternehmen und unseren Produkten stellen oder eine Nachricht für unser Gründerteam hinterlassen. Erfahren Sie aus erster Hand, wie intelligent und hilfreich ein Telefonassistent sein kann.</p>
@@ -599,25 +694,37 @@
             </div>
         </section>
 
+
         <section id="vorteile">
             <div class="container">
                 <h2 class="section-title">Ihre Vorteile mit ILAI</h2>
                 <p class="section-subtitle">Mehr als nur ein Assistent – ILAI ist ein echter Mehrwert für Ihr Unternehmen.</p>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="icon">💰</div> <h3>Kosten senken</h3>
+                <div class="benefits-grid"> <div class="benefit-card">
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-coins"></i></div>
+                            <h3>Kosten senken</h3>
+                        </div>
                         <p>Reduzieren Sie Aufwand für First-Level-Support und manuelle Bearbeitung.</p>
                     </div>
                     <div class="benefit-card">
-                        <div class="icon">🚀</div> <h3>Effizienz steigern</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-gauge-high"></i></div>
+                            <h3>Effizienz steigern</h3>
+                        </div>
                         <p>Beschleunigen Sie Abläufe und sorgen Sie für schnellere Bearbeitung.</p>
                     </div>
                     <div class="benefit-card">
-                        <div class="icon">🌙</div> <h3>Mitarbeiter entlasten</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-user-shield"></i></div> 
+                            <h3>Mitarbeiter entlasten</h3>
+                        </div>
                         <p>Geben Sie Ihrem Team Freiraum für wertschöpfende Tätigkeiten.</p>
                     </div>
                     <div class="benefit-card">
-                        <div class="icon">😊</div> <h3>Kundenzufriedenheit</h3>
+                        <div class="card-header">
+                            <div class="icon"><i class="fa-solid fa-face-smile-beam"></i></div> 
+                            <h3>Kundenzufriedenheit</h3>
+                        </div>
                         <p>Begeistern Sie mit schnellem, kompetentem Service – jederzeit.</p>
                     </div>
                 </div>
@@ -636,7 +743,7 @@
     <footer>
         <div class="container">
             <p>&copy; <span id="currentYear"></span> Ihr Firmenname. Alle Rechte vorbehalten.</p>
-            <p class="startup-hinweis">ILAI – Eine innovative Lösung von [Ihr Startup Name], um Kommunikation neu zu gestalten.</p>
+            <p class="startup-hinweis">ILAI – Eine innovative Lösung der Impact Labs GmbH, um Kommunikation neu zu gestalten.</p>
             <p><a href="#impressum">Impressum</a> | <a href="#datenschutz">Datenschutz</a></p> 
         </div>
     </footer>
@@ -662,7 +769,7 @@
                     if (charIndex < textToType.length) {
                         typewriterElement.textContent += textToType.charAt(charIndex);
                         charIndex++;
-                        setTimeout(type, 50); 
+                        setTimeout(type, 70); 
                     } else {
                         if(animationShowcaseContainer) animationShowcaseContainer.classList.add('typing-done');
                         // setTimeout(() => { // Optionaler Neustart
