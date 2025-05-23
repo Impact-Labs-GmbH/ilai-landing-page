@@ -61,11 +61,22 @@
             align-items: center;
         }
 
-        .logo {
-            font-size: 1.8em;
+        .logo-text {
+            font-size: 0.8em;
             font-weight: bold;
             color: var(--accent-color); /* Logo in Akzentfarbe */
             text-decoration: none;
+        }
+
+        .logo-img {
+            width: 250px;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column; /* Ordnet die Kind-Elemente vertikal an */
+            align-items: flex-start; /* Optional: Richtet die Elemente linksbündig aus.
+                                        Weitere Optionen: center, flex-end, stretch */
         }
 
         nav ul {
@@ -102,7 +113,6 @@
             background-color: var(--accent-hover-color);
             color: var(--text-on-accent) !important;
         }
-
 
         /* Hero Sektion */
         .hero {
@@ -251,9 +261,16 @@
         }
 
         /* Karten-Stile */
-        .challenges-grid, .features-grid, .benefits-grid {
+        .challenges-grid, .benefits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Geänderte Zeile */
             gap: 30px;
             margin-top: 40px;
         }
@@ -441,7 +458,10 @@
 
     <header>
         <div class="container">
-            <a href="#" class="logo">ILAI</a>
+            <div class="logo-container">
+            <img class="logo-img" src=https://www.impact-labs.ai/assets/logo.svg class="logo">
+            <a href="#" class="logo-text">ILAI - Ein Produkt der Impact Labs GmbH</a>
+            </div>
             <div class="menu-toggle" id="menuToggle">
                 <span></span>
                 <span></span>
@@ -451,9 +471,9 @@
                 <ul>
                     <li><a href="#herausforderungen">Herausforderungen</a></li>
                     <li><a href="#funktionen">Funktionen</a></li>
-                    <li><a href="#live-demo">Live erleben</a></li> {/* Neuer Navigationspunkt */}
+                    <li><a href="#live-demo">Live erleben</a></li> 
                     <li><a href="#vorteile">Vorteile</a></li>
-                    <li><a href="tel:+491234567890" class="nav-cta-button">Jetzt anrufen</a></li> {/* Telefonnummer im Nav-Button */}
+                    <li><a href="tel:+491234567890" class="nav-cta-button">Jetzt anrufen</a></li> 
                 </ul>
             </nav>
         </div>
@@ -529,7 +549,7 @@
             </div>
         </section>
 
-        <section id="live-demo"> {/* Neue Sektion für die Live-Demo */}
+        <section id="live-demo"> 
             <div class="container">
                 <h2 class="section-title">ILAI Live erleben – Rufen Sie an!</h2>
                 <p class="section-subtitle">Als innovatives Startup möchten wir Ihnen nicht nur erzählen, was ILAI kann – wir möchten es Ihnen zeigen! Erleben Sie unsere KI-Assistenz hautnah.</p>
@@ -604,7 +624,7 @@
             </div>
         </section>
 
-        <section id="demo" class="cta-section"> {/* Dieser Abschnitt wird zum finalen CTA mit Telefonnummer */}
+        <section id="demo" class="cta-section"> 
             <div class="container">
                 <h2 class="section-title">Bereit, ILAI selbst zu erleben?</h2>
                 <p class="section-subtitle">Keine Formulare, keine Wartezeiten. Rufen Sie direkt unser interaktives Demo an und sprechen Sie mit ILAI. Entdecken Sie die Zukunft der Telefonassistenz – entwickelt von einem innovativen Startup, das Ihre Herausforderungen versteht.</p>
