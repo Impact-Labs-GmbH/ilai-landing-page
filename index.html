@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILAI – Ihr intelligenter Telefonassistent</title>
+    <style>
+        /* Reset und Basis-Stile */
+        :root {
+            /* Von Ihnen vorgegebene Farben */
+            --heading-color: #192A46; /* Überschriften */
+            --accent-color: #740558;  /* Sekundär Hervorhebungen, Buttons, Icons */
+            --accent-hover-color: #5a0443; /* Etwas dunkler für Hover */
+            --background-main: #eceae9; /* Basis Hintergrund */
+
+            /* Abgeleitete oder zusätzliche Farben */
+            --text-primary: #333333;   /* Primäre Textfarbe auf hellem Hintergrund */
+            --text-on-accent: #ffffff; /* Textfarbe auf Akzentfarben-Hintergrund */
+            --card-background: #ffffff;/* Hintergrund für Karten, etc. */
+            --light-gray: #6c757d;     /* Für weniger wichtigen Text, falls benötigt */
+            
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background-main); /* Neuer Basishintergrund */
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--card-background); /* Header auf weißem Hintergrund für Kontrast */
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--accent-color); /* Logo in Akzentfarbe */
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center; /* Für vertikale Ausrichtung mit Button */
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-cta-button { /* Spezieller Style für den CTA in der Nav */
+            background-color: var(--accent-color);
+            color: var(--text-on-accent) !important; /* Wichtig, um Linkfarbe zu überschreiben */
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .nav-cta-button:hover {
+            background-color: var(--accent-hover-color);
+            color: var(--text-on-accent) !important;
+        }
+
+
+        /* Hero Sektion */
+        .hero {
+            background-color: var(--background-main); 
+            padding: 60px 0; 
+            text-align: center;
+            min-height: calc(85vh - 60px); /* Etwas mehr Höhe */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 750px; /* Etwas breiter für mehr Text */
+        }
+
+        .hero h1 {
+            font-size: 2.8em;
+            color: var(--heading-color); 
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.15em;
+            color: var(--text-primary); 
+            margin-bottom: 25px;
+        }
+        .hero .sub-intro { /* Zusätzlicher Text für die Demo */
+            font-size: 1em;
+            color: var(--light-gray);
+            margin-bottom: 35px;
+        }
+
+
+        .cta-button, .phone-cta-button {
+            display: inline-block;
+            background-color: var(--accent-color); 
+            color: var(--text-on-accent);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-size: 1.2em; /* Etwas größer für Haupt-CTA */
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(116, 5, 88, 0.2); 
+        }
+        .phone-cta-button {
+            font-size: 1.3em; /* Telefonnummer noch präsenter */
+        }
+
+        .cta-button:hover, .phone-cta-button:hover {
+            background-color: var(--accent-hover-color); 
+            transform: translateY(-2px);
+        }
+
+        /* Voice Animation & Typewriter Container */
+        .animation-showcase-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px; /* Etwas weniger Abstand oben */
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--card-background); 
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            min-height: 80px;
+        }
+
+        /* Equalizer Animation */
+        .equalizer-container {
+            display: flex;
+            align-items: flex-end; 
+            height: 40px; 
+            margin-right: 20px;
+        }
+
+        .equalizer-bar {
+            width: 6px; 
+            background-color: var(--accent-color); 
+            margin: 0 2px;
+            animation: equalize 1.2s infinite ease-in-out;
+            transform-origin: bottom; 
+        }
+
+        .equalizer-bar:nth-child(1) { height: 60%; animation-delay: -0.4s; }
+        .equalizer-bar:nth-child(2) { height: 100%; animation-delay: -0.2s; }
+        .equalizer-bar:nth-child(3) { height: 80%; animation-delay: 0s; }
+        .equalizer-bar:nth-child(4) { height: 70%; animation-delay: -0.3s; }
+        .equalizer-bar:nth-child(5) { height: 90%; animation-delay: -0.1s; }
+
+
+        @keyframes equalize {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+        }
+        
+        .typewriter-text-wrapper {
+            max-width: calc(100% - 70px); /* Mehr Platz für Equalizer */
+            overflow: hidden;
+        }
+        
+        .typewriter-text {
+            font-size: 1.1em;
+            color: var(--heading-color); 
+            font-style: italic;
+            border-right: 2px solid var(--accent-color); 
+            white-space: nowrap; 
+            overflow: hidden; 
+            display: inline-block; 
+            vertical-align: bottom; 
+            animation: blink-caret .75s step-end infinite;
+        }
+        
+        .typing-done .typewriter-text { 
+             border-right-color: transparent; 
+             animation: none; 
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
+        }
+
+
+        /* Sektionen Allgemein */
+        section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2em;
+            color: var(--heading-color);
+            margin-bottom: 15px;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: var(--text-primary); 
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Karten-Stile */
+        .challenges-grid, .features-grid, .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .challenge-card, .feature-card, .benefit-card, .live-demo-card {
+            background-color: var(--card-background); 
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .challenge-card:hover, .feature-card:hover, .benefit-card:hover, .live-demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .challenge-card .icon, .feature-card .icon, .benefit-card .icon, .live-demo-card .icon {
+            font-size: 2.5em; 
+            color: var(--accent-color); 
+            margin-bottom: 15px;
+        }
+        
+        .challenge-card h3, .feature-card h3, .benefit-card h3, .live-demo-card h3 {
+            font-size: 1.3em;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+        }
+        .challenge-card p, .feature-card p, .benefit-card p, .live-demo-card p {
+            font-size: 0.95em;
+            color: var(--text-primary);
+        }
+
+        /* How it Works Sektion */
+        .how-it-works-steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .step {
+            text-align: center;
+            max-width: 220px;
+            margin: 20px;
+        }
+        .step .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color); 
+            color: var(--text-on-accent);
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .step h4 {
+            font-size: 1.2em;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+        }
+
+        /* Live Demo Sektion */
+        #live-demo .live-demo-card {
+            max-width: 600px;
+            margin: 20px auto 0 auto; /* Zentriert die Karte */
+        }
+        #live-demo .live-demo-card p {
+            margin-bottom: 15px;
+        }
+
+
+        /* Example Section */
+        .example-content {
+            background-color: var(--card-background); 
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: 20px;
+            text-align: center;
+        }
+        .example-content strong {
+            color: var(--accent-color); 
+            font-size: 1.5em;
+        }
+
+        /* Call to Action Sektion */
+        .cta-section {
+            background-color: var(--accent-color); 
+            color: var(--text-on-accent);
+            padding: 70px 0;
+            text-align: center;
+        }
+        .cta-section .section-title {
+            color: var(--text-on-accent);
+        }
+        .cta-section .section-subtitle {
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 30px;
+        }
+        .cta-section .phone-cta-button { /* Button im CTA-Bereich anpassen */
+            background-color: var(--card-background);
+            color: var(--accent-color);
+            box-shadow: none;
+        }
+        .cta-section .phone-cta-button:hover {
+            background-color: #f0f0f0; 
+            color: var(--accent-hover-color);
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: var(--heading-color); 
+            color: var(--text-on-accent);
+            text-align: center;
+            padding: 30px 0;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+        footer .startup-hinweis {
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        footer a {
+            color: var(--background-main); 
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .hero p { font-size: 1em; }
+            .hero .sub-intro { font-size: 0.9em; }
+            .phone-cta-button { font-size: 1.1em; padding: 12px 25px; }
+
+
+            nav ul {
+                display: none; 
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                background-color: var(--card-background);
+                position: absolute;
+                top: 60px; 
+                left: 0;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                padding: 10px 0;
+            }
+            nav ul.active { display: flex; }
+            nav ul li { margin: 10px 0; width: 100%; text-align: center; }
+            nav ul li a { padding: 10px 0; display: block; width: 100%; }
+            .header .container { position: relative; }
+            
+            .menu-toggle { display: block; cursor: pointer; padding: 10px; }
+            .menu-toggle span { display: block; width: 25px; height: 3px; background-color: var(--heading-color); margin: 5px 0; transition: all 0.3s ease-in-out; }
+            .menu-toggle.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+
+            .animation-showcase-container { flex-direction: column; text-align: center; }
+            .equalizer-container { margin-right: 0; margin-bottom: 15px; }
+            
+            .typewriter-text { font-size: 1em; white-space: normal; word-break: break-word; border-right: none; animation: none; width: auto !important; display: block; text-align: center; }
+            .typewriter-text-wrapper { max-width: 100%; }
+        }
+
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            nav ul { display: flex !important; position: static; background-color: transparent; box-shadow: none; padding: 0; width: auto; }
+            nav ul li { width: auto; }
+            nav ul li a { padding: initial; display: inline; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#" class="logo">ILAI</a>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#herausforderungen">Herausforderungen</a></li>
+                    <li><a href="#funktionen">Funktionen</a></li>
+                    <li><a href="#live-demo">Live erleben</a></li> {/* Neuer Navigationspunkt */}
+                    <li><a href="#vorteile">Vorteile</a></li>
+                    <li><a href="tel:+491234567890" class="nav-cta-button">Jetzt anrufen</a></li> {/* Telefonnummer im Nav-Button */}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container hero-content">
+                <h1>ILAI – Ihr intelligenter Telefonassistent, der mitdenkt und mitarbeitet.</h1>
+                <p>Entlasten Sie Ihr Team, begeistern Sie Ihre Anrufer und optimieren Sie Ihre Abläufe – mit ILAI, der KI-gestützten Assistenz, die sich nahtlos in Ihr Unternehmen integriert.</p>
+                <p class="sub-intro">Neugierig? Rufen Sie unser interaktives Demo an und erleben Sie ILAI live in Aktion!</p>
+                
+                <div class="animation-showcase-container">
+                    <div class="equalizer-container">
+                        <div class="equalizer-bar"></div>
+                        <div class="equalizer-bar"></div>
+                        <div class="equalizer-bar"></div>
+                        <div class="equalizer-bar"></div>
+                        <div class="equalizer-bar"></div>
+                    </div>
+                    <div class="typewriter-text-wrapper">
+                        <span id="typewriter" class="typewriter-text" data-text="Hallo! Ich bin ILAI. Wie kann ich Ihnen heute helfen?"></span>
+                    </div>
+                </div>
+
+                <a href="tel:+491234567890" class="phone-cta-button">Jetzt ILAI testen: +49 123 456 7890</a>
+            </div>
+        </section>
+
+        <section id="herausforderungen">
+            <div class="container">
+                <h2 class="section-title">Kennen Sie das?</h2>
+                <p class="section-subtitle">Typische Herausforderungen, die smarte Automatisierung erfordern und die ILAI für Sie löst.</p>
+                <div class="challenges-grid">
+                    <div class="challenge-card">
+                        <div class="icon">⚠️</div> <h3>Überlastete Teams</h3>
+                        <p>Anrufe und Routineanfragen binden wertvolle Zeit Ihrer Mitarbeiter.</p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="icon">🕒</div> <h3>Eingeschränkte Erreichbarkeit</h3>
+                        <p>Kunden erwarten Service auch außerhalb der üblichen Geschäftszeiten.</p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="icon">🧩</div> <h3>Fehleranfällige Prozesse</h3>
+                        <p>Manuelle Dateneingaben und Prozessschritte führen zu Inkonsistenzen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="funktionen">
+            <div class="container">
+                <h2 class="section-title">ILAI ist Ihre Lösung</h2>
+                <p class="section-subtitle">Entdecken Sie die Kernfunktionen, die ILAI zu einem unverzichtbaren Partner machen.</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">💡</div> <h3>Intelligente Gesprächsführung</h3>
+                        <p>ILAI versteht Anliegen, beantwortet Fragen aus Ihrer Wissensbasis und klassifiziert Anfragen präzise.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">⚙️</div> <h3>Automatisierte Prozesse</h3>
+                        <p>Definieren Sie Workflows, die ILAI selbstständig ausführt – von der Datenerfassung bis zur Aktion.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🔗</div> <h3>Nahtlose Systemintegration</h3>
+                        <p>ILAI verbindet sich mit Ihren bestehenden Tools (CRM, ERP etc.) für einen reibungslosen Datenfluss.</p>
+                    </div>
+                     <div class="feature-card">
+                        <div class="icon">🎯</div> <h3>24/7 Erreichbarkeit</h3>
+                        <p>Bieten Sie Ihren Kunden konstanten Support und Informationszugang, rund um die Uhr.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="live-demo"> {/* Neue Sektion für die Live-Demo */}
+            <div class="container">
+                <h2 class="section-title">ILAI Live erleben – Rufen Sie an!</h2>
+                <p class="section-subtitle">Als innovatives Startup möchten wir Ihnen nicht nur erzählen, was ILAI kann – wir möchten es Ihnen zeigen! Erleben Sie unsere KI-Assistenz hautnah.</p>
+                <div class="live-demo-card">
+                    <div class="icon">📞</div>
+                    <h3>Testen Sie unser interaktives Demo:</h3>
+                    <p>Unter der Nummer <strong>+49 123 456 7890</strong> erwartet Sie ILAI.</p>
+                    <p>Sie können Fragen zu unserem Unternehmen und unseren Produkten stellen oder eine Nachricht für unser Gründerteam hinterlassen. Erfahren Sie aus erster Hand, wie intelligent und hilfreich ein Telefonassistent sein kann.</p>
+                    <a href="tel:+491234567890" class="cta-button" style="margin-top: 15px;">Direkt anrufen & testen</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="how-it-works">
+            <div class="container">
+                <h2 class="section-title">So einfach funktioniert ILAI</h2>
+                <p class="section-subtitle">In wenigen Schritten zu effizienteren Prozessen und zufriedeneren Kunden.</p>
+                <div class="how-it-works-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Analyse</h4>
+                        <p>ILAI erfasst und versteht das Kundenanliegen intelligent.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Aktion</h4>
+                        <p>ILAI greift auf Wissen zu, startet Prozesse oder integriert Daten.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Lösung</h4>
+                        <p>Der Kunde erhält eine schnelle, präzise Antwort oder sein Anliegen wird automatisiert bearbeitet.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="example">
+            <div class="container">
+                <h2 class="section-title">ILAI in Aktion: Ein Leistungsbeweis</h2>
+                <p class="section-subtitle">Sehen Sie, wie ILAI komplexe Aufgaben meistert und beeindruckende Ergebnisse liefert.</p>
+                <div class="example-content">
+                    <p>Stellen Sie sich einen Serviceprozess wie eine Fahrzeugrückgabe vor. ILAI kann Anrufer identifizieren, Daten aus angebundenen Systemen prüfen (z.B. Tankstand), den Prozess führen und abschließen.</p>
+                    <p>Ergebnis: <strong>85-90%</strong> der Anfragen vollautomatisiert abgewickelt!</p>
+                    <p style="margin-top:15px; font-size: 0.9em; color: var(--light-gray);">(Dieses Beispiel zeigt die Fähigkeit zur tiefen Prozessautomatisierung, übertragbar auf viele Branchen.)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="vorteile">
+            <div class="container">
+                <h2 class="section-title">Ihre Vorteile mit ILAI</h2>
+                <p class="section-subtitle">Mehr als nur ein Assistent – ILAI ist ein echter Mehrwert für Ihr Unternehmen.</p>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="icon">💰</div> <h3>Kosten senken</h3>
+                        <p>Reduzieren Sie Aufwand für First-Level-Support und manuelle Bearbeitung.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="icon">🚀</div> <h3>Effizienz steigern</h3>
+                        <p>Beschleunigen Sie Abläufe und sorgen Sie für schnellere Bearbeitung.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="icon">🌙</div> <h3>Mitarbeiter entlasten</h3>
+                        <p>Geben Sie Ihrem Team Freiraum für wertschöpfende Tätigkeiten.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="icon">😊</div> <h3>Kundenzufriedenheit</h3>
+                        <p>Begeistern Sie mit schnellem, kompetentem Service – jederzeit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="demo" class="cta-section"> {/* Dieser Abschnitt wird zum finalen CTA mit Telefonnummer */}
+            <div class="container">
+                <h2 class="section-title">Bereit, ILAI selbst zu erleben?</h2>
+                <p class="section-subtitle">Keine Formulare, keine Wartezeiten. Rufen Sie direkt unser interaktives Demo an und sprechen Sie mit ILAI. Entdecken Sie die Zukunft der Telefonassistenz – entwickelt von einem innovativen Startup, das Ihre Herausforderungen versteht.</p>
+                <a href="tel:+491234567890" class="phone-cta-button">Jetzt anrufen: +49 123 456 7890</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Ihr Firmenname. Alle Rechte vorbehalten.</p>
+            <p class="startup-hinweis">ILAI – Eine innovative Lösung von [Ihr Startup Name], um Kommunikation neu zu gestalten.</p>
+            <p><a href="#impressum">Impressum</a> | <a href="#datenschutz">Datenschutz</a></p> 
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Typewriter-Effekt
+            const typewriterElement = document.getElementById('typewriter');
+            if (typewriterElement) {
+                const textToType = typewriterElement.getAttribute('data-text');
+                let charIndex = 0;
+                typewriterElement.textContent = ''; 
+                
+                const animationShowcaseContainer = typewriterElement.closest('.animation-showcase-container');
+
+                function type() {
+                    if (window.innerWidth <= 768) { 
+                        typewriterElement.textContent = textToType;
+                        if(animationShowcaseContainer) animationShowcaseContainer.classList.add('typing-done');
+                        return;
+                    }
+
+                    if (charIndex < textToType.length) {
+                        typewriterElement.textContent += textToType.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(type, 70); 
+                    } else {
+                        if(animationShowcaseContainer) animationShowcaseContainer.classList.add('typing-done');
+                        // setTimeout(() => { // Optionaler Neustart
+                        //     if(animationShowcaseContainer) animationShowcaseContainer.classList.remove('typing-done');
+                        //     typewriterElement.textContent = "";
+                        //     charIndex = 0;
+                        //     type();
+                        // }, 7000); 
+                    }
+                }
+                type(); 
+            }
+
+            // Aktuelles Jahr im Footer
+            const currentYearElement = document.getElementById('currentYear');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+            
+            // Smooth scrolling für Navigationslinks
+            const navLinks = document.querySelectorAll('nav ul li a[href^="#"]');
+            navLinks.forEach(link => {
+                // Ignoriere Tel-Links für Smooth Scroll
+                if (link.getAttribute('href').startsWith('tel:')) {
+                    return;
+                }
+
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    let targetId = this.getAttribute('href');
+                    let targetElement = document.querySelector(targetId);
+
+                    if(targetElement) {
+                        const mainNav = document.getElementById('mainNav');
+                        const menuToggle = document.getElementById('menuToggle');
+                        if (mainNav.classList.contains('active')) {
+                            mainNav.classList.remove('active');
+                            menuToggle.classList.remove('active');
+                        }
+
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Mobile Navigation Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                    menuToggle.classList.toggle('active'); 
+                });
+            }
+        });
+    </script>
+</body>
+</html>
